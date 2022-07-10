@@ -117,7 +117,6 @@ export class CatScratchEditorProvider implements vscode.CustomTextEditorProvider
 				Use a content security policy to only allow loading images from https or from our extension directory,
 				and only allow scripts that have a specific nonce.
 				-->
-				<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${webview.cspSource}; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
 
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -128,13 +127,16 @@ export class CatScratchEditorProvider implements vscode.CustomTextEditorProvider
 				<title>Cat Scratch</title>
 			</head>
 			<body>
-				<div class="notes">
-					<div class="add-button">
-						<button>Scratch!</button>
-					</div>
-				</div>
+				<button>Does not preventDefault</button>
+				<button id="stop-bubble-and-default">Does preventDefault and won't take focus</button>
+
+				<script>
+					document.getElementById('stop-bubble-and-default').onmousedown = (e) => {
+						e.preventDefault();
+						e.stopPropagation();
+					};
+				</script>
 				
-				<script nonce="${nonce}" src="${scriptUri}"></script>
 			</body>
 			</html>`;
 	}
